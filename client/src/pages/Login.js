@@ -92,9 +92,36 @@ function Login() {
 
         setTimeout(() => {
 
-          navigate("/");
+  const userRole =
+    response.data.user.role;
 
-        }, 1500);
+  if (
+    userRole === "admin"
+  ) {
+
+    navigate(
+      "/admin/dashboard"
+    );
+
+  }
+
+  else if (
+    userRole === "owner"
+  ) {
+
+    navigate(
+      "/owner/dashboard"
+    );
+
+  }
+
+  else {
+
+    navigate("/");
+
+  }
+
+}, 1500);
 
       } catch (error) {
 

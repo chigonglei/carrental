@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import {
   Link,
   useLocation,
+  useNavigate,
 } from "react-router-dom";
 
 import {
@@ -25,7 +26,18 @@ function Navbar() {
   const [scrolled, setScrolled] =
     useState(false);
 
-  const location = useLocation();
+  const location =
+    useLocation();
+
+  const navigate =
+    useNavigate();
+
+  const user =
+    JSON.parse(
+      localStorage.getItem(
+        "user"
+      )
+    );
 
   useEffect(() => {
 
@@ -68,20 +80,42 @@ function Navbar() {
 
   }, [darkMode]);
 
+  const handleLogout = () => {
+
+    localStorage.removeItem(
+      "token"
+    );
+
+    localStorage.removeItem(
+      "user"
+    );
+
+    navigate("/login");
+
+  };
+
   return (
+
     <>
+
       {/* Overlay */}
 
       {
+
         menuOpen && (
+
           <div
             className="overlay"
             onClick={() =>
               setMenuOpen(false)
             }
           />
+
         )
+
       }
+
+      {/* Navbar */}
 
       <nav
         className={
@@ -91,11 +125,16 @@ function Navbar() {
         }
       >
 
-        <Link to="/" className="logo">
-  DriveFleet
-</Link>
+        {/* Logo */}
 
-        {/* Desktop */}
+        <Link
+          to="/"
+          className="logo"
+        >
+          DriveFleet
+        </Link>
+
+        {/* Desktop Menu */}
 
         <div className="nav-links">
 
@@ -121,80 +160,163 @@ function Navbar() {
             Cars
           </Link>
 
-          <Link
-            to="/login"
-            className={
-              location.pathname === "/login"
-                ? "active-link"
-                : ""
-            }
-          >
-            Login
-          </Link>
+          {
 
-          <Link
-  to="/register"
-  className={
-    location.pathname === "/register"
-      ? "active-link"
-                : ""
-  }
->
-  Register
-</Link>
+            user ? (
 
-          {/* Dark Toggle */}
+              <>
+
+                {
+
+                  user.role ===
+                  "owner" && (
+
+                    <Link
+                      to="/owner/dashboard"
+                    >
+                      Dashboard
+                    </Link>
+
+                  )
+
+                }
+
+                {
+
+                  user.role ===
+                  "admin" && (
+
+                    <Link
+                      to="/admin/dashboard"
+                    >
+                      Admin
+                    </Link>
+
+                  )
+
+                }
+
+                <Link
+                  to="/profile"
+                >
+                  Profile
+                </Link>
+
+                <button
+                  className="logout-btn"
+                  onClick={
+                    handleLogout
+                  }
+                >
+                  Logout
+                </button>
+
+              </>
+
+            ) : (
+
+              <>
+
+                <Link
+                  to="/login"
+                  className={
+                    location.pathname ===
+                    "/login"
+                      ? "active-link"
+                      : ""
+                  }
+                >
+                  Login
+                </Link>
+
+                <Link
+                  to="/register"
+                  className={
+                    location.pathname ===
+                    "/register"
+                      ? "active-link"
+                      : ""
+                  }
+                >
+                  Register
+                </Link>
+
+              </>
+
+            )
+
+          }
+
+          {/* Dark Mode Toggle */}
 
           <button
             className="theme-btn"
             onClick={() =>
-              setDarkMode(!darkMode)
+              setDarkMode(
+                !darkMode
+              )
             }
           >
+
             {
+
               darkMode
                 ? <FaSun />
                 : <FaMoon />
+
             }
+
           </button>
 
         </div>
 
-        {/* Mobile Right */}
+        {/* Mobile Actions */}
 
         <div className="mobile-actions">
 
           <button
             className="theme-btn"
             onClick={() =>
-              setDarkMode(!darkMode)
+              setDarkMode(
+                !darkMode
+              )
             }
           >
+
             {
+
               darkMode
                 ? <FaSun />
                 : <FaMoon />
+
             }
+
           </button>
 
           <div
             className="menu-icon"
             onClick={() =>
-              setMenuOpen(!menuOpen)
+              setMenuOpen(
+                !menuOpen
+              )
             }
           >
+
             {
+
               menuOpen
                 ? <FaTimes />
                 : <FaBars />
+
             }
+
           </div>
 
         </div>
 
       </nav>
 
-      {/* Sidebar */}
+      {/* Mobile Sidebar */}
 
       <div
         className={
@@ -222,29 +344,102 @@ function Navbar() {
           Cars
         </Link>
 
-        <Link
-          to="/login"
-          onClick={() =>
-            setMenuOpen(false)
-          }
-        >
-          Login
-        </Link>
+        {
 
-        <Link
-  to="/register"
-  className={
-    location.pathname === "/register"
-      ? "register-btn register-active"
-      : "register-btn"
-  }
->
-  Register
-</Link>
+          user ? (
+
+            <>
+
+              {
+
+                user.role ===
+                "owner" && (
+
+                  <Link
+                    to="/owner/dashboard"
+                    onClick={() =>
+                      setMenuOpen(false)
+                    }
+                  >
+                    Dashboard
+                  </Link>
+
+                )
+
+              }
+
+              {
+
+                user.role ===
+                "admin" && (
+
+                  <Link
+                    to="/admin/dashboard"
+                    onClick={() =>
+                      setMenuOpen(false)
+                    }
+                  >
+                    Admin
+                  </Link>
+
+                )
+
+              }
+
+              <Link
+                to="/profile"
+                onClick={() =>
+                  setMenuOpen(false)
+                }
+              >
+                Profile
+              </Link>
+
+              <button
+                className="logout-btn"
+                onClick={
+                  handleLogout
+                }
+              >
+                Logout
+              </button>
+
+            </>
+
+          ) : (
+
+            <>
+
+              <Link
+                to="/login"
+                onClick={() =>
+                  setMenuOpen(false)
+                }
+              >
+                Login
+              </Link>
+
+              <Link
+                to="/register"
+                onClick={() =>
+                  setMenuOpen(false)
+                }
+              >
+                Register
+              </Link>
+
+            </>
+
+          )
+
+        }
 
       </div>
+
     </>
+
   );
+
 }
 
 export default Navbar;

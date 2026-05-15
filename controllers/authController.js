@@ -14,9 +14,26 @@ exports.registerUser =
 
     try {
 
+      // Prevent admin registration
+
+      if (
+        req.body.role === "admin"
+      ) {
+
+        return res.status(403)
+          .json({
+            message:
+              "Admin registration not allowed",
+          });
+
+      }
+
+      // Check existing user
+
       const existingUser =
         await User.findOne({
-          email: req.body.email,
+          email:
+            req.body.email,
         });
 
       if (existingUser) {
@@ -29,11 +46,15 @@ exports.registerUser =
 
       }
 
+      // Hash password
+
       const hashedPassword =
         await bcrypt.hash(
           req.body.password,
           10
         );
+
+      // Create user
 
       const user =
         await User.create({
@@ -43,7 +64,28 @@ exports.registerUser =
           password:
             hashedPassword,
 
+          role:
+            req.body.role ||
+            "renter",
+
         });
+
+      // Create token
+
+      const token =
+        jwt.sign({
+
+          id: user._id,
+
+          role: user.role,
+
+        },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "7d",
+        });
+
+      // Response
 
       res.status(201).json({
 
@@ -52,15 +94,32 @@ exports.registerUser =
         message:
           "Account created successfully",
 
-        user,
+        token,
+
+        user: {
+
+          id: user._id,
+
+          fullName:
+            user.fullName,
+
+          email:
+            user.email,
+
+          role:
+            user.role,
+
+        },
 
       });
 
     } catch (error) {
 
       res.status(500).json({
+
         message:
           error.message,
+
       });
 
     }
@@ -79,6 +138,8 @@ exports.loginUser =
         password,
       } = req.body;
 
+      // Find user
+
       const user =
         await User.findOne({
           email,
@@ -86,13 +147,15 @@ exports.loginUser =
 
       if (!user) {
 
-  return res.status(404)
-    .json({
-      message:
-        "Email is not registered",
-    });
+        return res.status(404)
+          .json({
+            message:
+              "Email is not registered",
+          });
 
-}
+      }
+
+      // Compare password
 
       const isMatch =
         await bcrypt.compare(
@@ -102,18 +165,21 @@ exports.loginUser =
 
       if (!isMatch) {
 
-  return res.status(400)
-    .json({
-      message:
-        "Incorrect password",
-    });
+        return res.status(400)
+          .json({
+            message:
+              "Incorrect password",
+          });
 
-}
+      }
+
+      // Generate token
 
       const token =
         jwt.sign({
 
           id: user._id,
+
           role: user.role,
 
         },
@@ -122,21 +188,41 @@ exports.loginUser =
           expiresIn: "7d",
         });
 
+      // Response
+
       res.status(200).json({
 
         success: true,
 
+        message:
+          "Login successful",
+
         token,
 
-        user,
+        user: {
+
+          id: user._id,
+
+          fullName:
+            user.fullName,
+
+          email:
+            user.email,
+
+          role:
+            user.role,
+
+        },
 
       });
 
     } catch (error) {
 
       res.status(500).json({
+
         message:
           error.message,
+
       });
 
     }
