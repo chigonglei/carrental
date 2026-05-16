@@ -6,16 +6,15 @@ const router =
 
 const {
 
-  addCar,
-  getOwnerCars,
-  getAllCars,
-  deleteCar,
-  getSingleCar,
-  updateCar,
+  createBooking,
+  getRenterBookings,
+  getOwnerBookings,
+  updateBookingStatus,
+  getCarBookings,
 
 } =
 require(
-  "../controllers/carController"
+  "../controllers/bookingController"
 );
 
 const authMiddleware =
@@ -28,53 +27,44 @@ const roleMiddleware =
     "../middleware/roleMiddleware"
   );
 
-/* Owner Add Car */
+/* Create Booking */
 
 router.post(
   "/",
   authMiddleware,
-  roleMiddleware("owner"),
-  addCar
+  roleMiddleware("renter"),
+  createBooking
 );
 
-/* Owner Cars */
+/* Renter Bookings */
 
 router.get(
-  "/my-cars",
+  "/my-bookings",
+  authMiddleware,
+  roleMiddleware("renter"),
+  getRenterBookings
+);
+
+/* Owner Booking Requests */
+
+router.get(
+  "/owner-bookings",
   authMiddleware,
   roleMiddleware("owner"),
-  getOwnerCars
-);
-
-/* Single Car */
-
-router.get(
-  "/:id",
-  getSingleCar
-);
-
-/* Public Cars */
-
-router.get(
-  "/",
-  getAllCars
+  getOwnerBookings
 );
 
 router.put(
   "/:id",
   authMiddleware,
   roleMiddleware("owner"),
-  updateCar
+  updateBookingStatus
 );
 
-/* Delete Car */
-
-router.delete(
-  "/:id",
-  authMiddleware,
-  roleMiddleware("owner"),
-  deleteCar
+router.get(
+  "/car/:carId",
+  getCarBookings
 );
-
+ 
 module.exports =
   router;

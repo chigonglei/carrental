@@ -1,0 +1,169 @@
+.car-details {
+
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 50px;
+
+  padding: 60px;
+
+  align-items: start;
+
+}
+
+.car-details img {
+
+  width: 100%;
+
+  height: 500px;
+
+  object-fit: cover;
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 10px 30px
+    rgba(0, 0, 0, 0.1);
+
+}
+
+.car-content h1 {
+
+  font-size: 52px;
+
+  margin-bottom: 10px;
+
+  color: #0f172a;
+
+}
+
+.car-content p {
+
+  margin-bottom: 14px;
+
+  font-size: 18px;
+
+  color: #475569;
+
+}
+
+.car-content h2 {
+
+  margin-top: 20px;
+
+  font-size: 36px;
+
+  color: #2563eb;
+
+}
+
+.booking-box {
+
+  margin-top: 40px;
+
+  background: white;
+
+  padding: 30px;
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 10px 30px
+    rgba(0, 0, 0, 0.08);
+
+}
+
+.booking-box h3 {
+
+  margin-bottom: 20px;
+
+  font-size: 28px;
+
+}
+
+.booking-box input {
+
+  width: 100%;
+
+  padding: 16px;
+
+  margin-bottom: 18px;
+
+  border: 1px solid #dbe2ea;
+
+  border-radius: 14px;
+
+  font-size: 15px;
+
+}
+
+.booking-box button {
+
+  width: 100%;
+
+  padding: 16px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #1d4ed8
+    );
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+}
+
+.booking-box button:hover {
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 10px 20px
+    rgba(37, 99, 235, 0.25);
+
+}
+
+@media (max-width: 900px) {
+
+  .car-details {
+
+    grid-template-columns:
+      1fr;
+
+    padding: 30px;
+
+  }
+
+}
+
+.date-picker {
+
+  width: 100%;
+
+  padding: 16px;
+
+  margin-bottom: 18px;
+
+  border: 1px solid #dbe2ea;
+
+  border-radius: 14px;
+
+  font-size: 15px;
+
+}

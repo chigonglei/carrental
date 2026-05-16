@@ -31,27 +31,13 @@ const carSchema =
 
     },
 
-    model: {
+    carNumber: {
 
       type: String,
 
       required: true,
 
-    },
-
-    year: {
-
-      type: Number,
-
-      required: true,
-
-    },
-
-    pricePerDay: {
-
-      type: Number,
-
-      required: true,
+      unique: true,
 
     },
 
@@ -76,17 +62,9 @@ const carSchema =
 
     },
 
-    seats: {
+    pricePerDay: {
 
       type: Number,
-
-      required: true,
-
-    },
-
-    location: {
-
-      type: String,
 
       required: true,
 
@@ -96,7 +74,7 @@ const carSchema =
 
       type: String,
 
-      default: "",
+      required: true,
 
     },
 

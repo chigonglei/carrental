@@ -1,9 +1,11 @@
-import Layout
-from "../../components/Layout";
-
 import {
   Link
 } from "react-router-dom";
+
+import Layout
+from "../../components/Layout";
+
+import "../../styles/ownerDashboard.css";
 
 function OwnerDashboard() {
 
@@ -11,47 +13,133 @@ function OwnerDashboard() {
 
     <Layout>
 
-      <div
-        style={{
-          padding: "40px",
-        }}
-      >
+      <div className="owner-dashboard">
 
-        <h1>
-          Owner Dashboard
-        </h1>
+        {/* Header */}
 
-        <p>
-          Welcome Car Owner
-        </p>
+        <div className="dashboard-header">
 
-        <Link
-          to="/owner/add-car"
-          style={{
+          <div>
 
-            display: "inline-block",
+            <h1>
+              Owner Dashboard
+            </h1>
 
-            marginTop: "20px",
+            <p>
+              Manage your cars,
+              bookings and earnings
+            </p>
 
-            padding:
-              "12px 20px",
+          </div>
 
-            background:
-              "#2563eb",
+        </div>
 
-            color: "white",
+        {/* Stats */}
 
-            textDecoration:
-              "none",
+        <div className="stats-grid">
 
-            borderRadius: "10px",
+          <div className="stat-card">
 
-            fontWeight: "600",
+            <h2>
+              12
+            </h2>
 
-          }}
-        >
-          Add New Car
-        </Link>
+            <p>
+              Total Cars
+            </p>
+
+          </div>
+
+          <div className="stat-card">
+
+            <h2>
+              5
+            </h2>
+
+            <p>
+              Active Bookings
+            </p>
+
+          </div>
+
+          <div className="stat-card">
+
+            <h2>
+              ₹45,000
+            </h2>
+
+            <p>
+              Earnings
+            </p>
+
+          </div>
+
+          <div className="stat-card">
+
+            <h2>
+              8
+            </h2>
+
+            <p>
+              Available Cars
+            </p>
+
+          </div>
+
+        </div>
+
+        {/* Quick Actions */}
+
+        <div className="actions-grid">
+
+          <Link
+            to="/owner/add-car"
+            className="action-card"
+          >
+
+            <h3>
+              Add Car
+            </h3>
+
+            <p>
+              Upload a new
+              vehicle
+            </p>
+
+          </Link>
+
+          <Link
+            to="/owner/my-cars"
+            className="action-card"
+          >
+
+            <h3>
+              My Cars
+            </h3>
+
+            <p>
+              Manage your fleet
+            </p>
+
+          </Link>
+
+          <Link
+            to="/owner/bookings"
+            className="action-card"
+          >
+
+            <h3>
+              Bookings
+            </h3>
+
+            <p>
+              View booking
+              requests
+            </p>
+
+          </Link>
+
+        </div>
 
       </div>
 

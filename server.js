@@ -5,7 +5,7 @@ const morgan = require("morgan");
 const authRoutes = require("./routes/authRoutes");
 const connectDB = require("./config/db");
 const carRoutes = require("./routes/carRoutes");
-
+const bookingRoutes = require("./routes/bookingRoutes");
 
 dotenv.config();
 
@@ -29,6 +29,11 @@ app.use(
 app.use(
   "/api/cars",
   carRoutes
+);
+
+app.use(
+  "/api/bookings",
+  bookingRoutes
 );
  
 const PORT = process.env.PORT || 5000;

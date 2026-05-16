@@ -1,4 +1,7 @@
-import { useState, useEffect } from "react";
+import {
+  useState,
+  useEffect
+} from "react";
 
 import {
   Link,
@@ -17,13 +20,16 @@ import "../styles/navbar.css";
 
 function Navbar() {
 
-  const [menuOpen, setMenuOpen] =
+  const [menuOpen,
+    setMenuOpen] =
     useState(false);
 
-  const [darkMode, setDarkMode] =
+  const [darkMode,
+    setDarkMode] =
     useState(false);
 
-  const [scrolled, setScrolled] =
+  const [scrolled,
+    setScrolled] =
     useState(false);
 
   const location =
@@ -41,13 +47,14 @@ function Navbar() {
 
   useEffect(() => {
 
-    const handleScroll = () => {
+    const handleScroll =
+      () => {
 
-      setScrolled(
-        window.scrollY > 20
-      );
+        setScrolled(
+          window.scrollY > 20
+        );
 
-    };
+      };
 
     window.addEventListener(
       "scroll",
@@ -80,19 +87,20 @@ function Navbar() {
 
   }, [darkMode]);
 
-  const handleLogout = () => {
+  const handleLogout =
+    () => {
 
-    localStorage.removeItem(
-      "token"
-    );
+      localStorage.removeItem(
+        "token"
+      );
 
-    localStorage.removeItem(
-      "user"
-    );
+      localStorage.removeItem(
+        "user"
+      );
 
-    navigate("/login");
+      navigate("/login");
 
-  };
+    };
 
   return (
 
@@ -196,6 +204,21 @@ function Navbar() {
 
                 }
 
+                {
+
+                  user.role ===
+                  "renter" && (
+
+                    <Link
+                      to="/my-bookings"
+                    >
+                      My Bookings
+                    </Link>
+
+                  )
+
+                }
+
                 <Link
                   to="/profile"
                 >
@@ -247,7 +270,7 @@ function Navbar() {
 
           }
 
-          {/* Dark Mode Toggle */}
+          {/* Dark Mode */}
 
           <button
             className="theme-btn"
@@ -380,6 +403,24 @@ function Navbar() {
                     }
                   >
                     Admin
+                  </Link>
+
+                )
+
+              }
+
+              {
+
+                user.role ===
+                "renter" && (
+
+                  <Link
+                    to="/my-bookings"
+                    onClick={() =>
+                      setMenuOpen(false)
+                    }
+                  >
+                    My Bookings
                   </Link>
 
                 )

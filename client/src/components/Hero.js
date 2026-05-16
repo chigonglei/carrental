@@ -18,7 +18,7 @@ function Hero() {
           fleet sharing.
         </p>
 
-        <div className="hero-buttons">
+        {/* <div className="hero-buttons">
           <button className="primary-btn">
             Rent a Car
           </button>
@@ -26,7 +26,7 @@ function Hero() {
           <button className="secondary-btn">
             List Your Car
           </button>
-        </div>
+        </div> */}
       </div>
 
       <div className="hero-right">
