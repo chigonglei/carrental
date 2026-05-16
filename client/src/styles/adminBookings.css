@@ -1,0 +1,44 @@
+.admin-bookings {
+
+  background: white;
+
+  padding: 20px;
+
+  border-radius: 12px;
+
+  box-shadow:
+    0 2px 10px rgba(0,0,0,0.1);
+
+}
+
+.admin-bookings h1 {
+
+  margin-bottom: 20px;
+
+}
+
+.admin-bookings table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+}
+
+.admin-bookings th,
+.admin-bookings td {
+
+  padding: 15px;
+
+  border-bottom:
+    1px solid #ddd;
+
+  text-align: left;
+
+}
+
+.admin-bookings th {
+
+  background: #f3f4f6;
+
+}

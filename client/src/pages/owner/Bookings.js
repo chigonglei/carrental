@@ -141,10 +141,12 @@ function Bookings() {
 
                   <img
                     src={
-                      booking.car.image
+                      booking.car?.image ||
+                      "https://via.placeholder.com/400x250?text=Car+Deleted"
                     }
                     alt={
-                      booking.car.carName
+                      booking.car?.carName ||
+                      "Deleted Car"
                     }
                   />
 
@@ -152,8 +154,8 @@ function Bookings() {
 
                     <h2>
                       {
-                        booking.car
-                          .carName
+                        booking.car?.carName ||
+                        "Car Deleted"
                       }
                     </h2>
 
@@ -162,7 +164,7 @@ function Bookings() {
                       {" "}
                       {
                         booking.renter
-                          .fullName
+                          ?.fullName
                       }
                     </p>
 
@@ -171,7 +173,7 @@ function Bookings() {
                       {" "}
                       {
                         booking.renter
-                          .email
+                          ?.email
                       }
                     </p>
 

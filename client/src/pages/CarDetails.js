@@ -16,6 +16,13 @@ import {
 import Layout
 from "../components/Layout";
 
+import Calendar
+from "react-calendar";
+
+import "react-datepicker/dist/react-datepicker.css";
+
+import "react-calendar/dist/Calendar.css";
+
 import "../styles/carDetails.css";
 
 function CarDetails() {
@@ -46,6 +53,8 @@ function CarDetails() {
 
   }, []);
 
+  /* Fetch Car */
+
   const fetchCar =
     async () => {
 
@@ -69,6 +78,8 @@ function CarDetails() {
       }
 
     };
+
+  /* Fetch Booked Dates */
 
   const fetchBookedDates =
     async () => {
@@ -126,15 +137,36 @@ function CarDetails() {
 
     };
 
+  /* Handle Booking */
+
   const handleBooking =
     async () => {
 
       try {
 
+        if (
+          !startDate ||
+          !endDate
+        ) {
+
+          return alert(
+            "Select booking dates"
+          );
+
+        }
+
         const token =
           localStorage.getItem(
             "token"
           );
+
+        if (!token) {
+
+          return alert(
+            "Please login first"
+          );
+
+        }
 
         await axios.post(
 
@@ -164,15 +196,19 @@ function CarDetails() {
         );
 
         alert(
-          "Booking request sent"
+          "Booking request sent successfully"
         );
+
+        fetchBookedDates();
 
       } catch (error) {
 
         alert(
 
           error.response?.data
-            ?.message
+            ?.message ||
+
+          "Booking failed"
 
         );
 
@@ -192,6 +228,7 @@ function CarDetails() {
         <img
           src={car.image}
           alt={car.carName}
+          className="car-image"
         />
 
         <div className="car-content">
@@ -238,29 +275,94 @@ function CarDetails() {
               Book This Car
             </h3>
 
+            {/* Availability Calendar */}
+
+            <div className="availability-calendar">
+
+              <h4>
+                Availability Calendar
+              </h4>
+
+              <Calendar
+
+                tileClassName={({
+                  date
+                }) => {
+
+                  const isBooked =
+                    bookedDates.some(
+                      (
+                        bookedDate
+                      ) =>
+
+                        bookedDate.toDateString() ===
+                        date.toDateString()
+                    );
+
+                  return isBooked
+                    ? "booked-date"
+                    : null;
+
+                }}
+
+              />
+
+            </div>
+
+            {/* Start Date */}
+
             <DatePicker
-              selected={startDate}
+
+              selected={
+                startDate
+              }
+
               onChange={(date) =>
                 setStartDate(date)
               }
+
               excludeDates={
                 bookedDates
               }
+
               placeholderText="Start Date"
+
               className="date-picker"
+
+              minDate={
+                new Date()
+              }
+
             />
 
+            {/* End Date */}
+
             <DatePicker
-              selected={endDate}
+
+              selected={
+                endDate
+              }
+
               onChange={(date) =>
                 setEndDate(date)
               }
+
               excludeDates={
                 bookedDates
               }
+
               placeholderText="End Date"
+
               className="date-picker"
+
+              minDate={
+                startDate ||
+                new Date()
+              }
+
             />
+
+            {/* Booking Button */}
 
             <button
               onClick={

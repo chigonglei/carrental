@@ -22,17 +22,21 @@ const authMiddleware =
     "../middleware/authMiddleware"
   );
 
-const roleMiddleware =
-  require(
-    "../middleware/roleMiddleware"
-  );
+const {
+  renterOnly,
+  ownerOnly,
+  adminOnly
+} =
+require(
+  "../middleware/roleMiddleware"
+);
 
 /* Create Booking */
 
 router.post(
   "/",
   authMiddleware,
-  roleMiddleware("renter"),
+  renterOnly,
   createBooking
 );
 
@@ -41,7 +45,7 @@ router.post(
 router.get(
   "/my-bookings",
   authMiddleware,
-  roleMiddleware("renter"),
+  renterOnly,
   getRenterBookings
 );
 
@@ -50,14 +54,14 @@ router.get(
 router.get(
   "/owner-bookings",
   authMiddleware,
-  roleMiddleware("owner"),
+  ownerOnly,
   getOwnerBookings
 );
 
 router.put(
   "/:id",
   authMiddleware,
-  roleMiddleware("owner"),
+  ownerOnly,
   updateBookingStatus
 );
 
@@ -65,6 +69,6 @@ router.get(
   "/car/:carId",
   getCarBookings
 );
- 
+
 module.exports =
   router;

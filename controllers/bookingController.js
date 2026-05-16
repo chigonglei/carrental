@@ -4,17 +4,12 @@ const Booking =
 const Car =
   require("../models/Car");
 
-
-  
 /* Create Booking */
-
 
 exports.createBooking =
   async (req, res) => {
 
     try {
-
-      
 
       const {
 
@@ -24,7 +19,7 @@ exports.createBooking =
 
       } = req.body;
 
-      // Find car
+      /* Find Car */
 
       const car =
         await Car.findById(
@@ -41,49 +36,66 @@ exports.createBooking =
 
       }
 
+      /* Only approved cars bookable */
+
+      if (
+        car.status !==
+        "approved"
+      ) {
+
+        return res.status(400)
+          .json({
+            message:
+              "Car is not approved yet",
+          });
+
+      }
+
+      /* Double Booking Protection */
+
       const existingBooking =
-  await Booking.findOne({
+        await Booking.findOne({
 
-    car: carId,
+          car: carId,
 
-    status: {
-      $in: [
-        "pending",
-        "approved",
-      ],
-    },
+          status: {
+            $in: [
+              "pending",
+              "approved",
+            ],
+          },
 
-    $or: [
+          $or: [
 
-      {
+            {
 
-        startDate: {
-          $lte: endDate,
-        },
+              startDate: {
+                $lte: endDate,
+              },
 
-        endDate: {
-          $gte: startDate,
-        },
+              endDate: {
+                $gte: startDate,
+              },
 
-      },
+            },
 
-    ],
+          ],
 
-  });
+        });
 
-if (existingBooking) {
+      if (existingBooking) {
 
-  return res.status(400)
-    .json({
+        return res.status(400)
+          .json({
 
-      message:
-        "Car already booked for selected dates",
+            message:
+              "Car already booked for selected dates",
 
-    });
+          });
 
-}
+      }
 
-      // Calculate days
+      /* Calculate Days */
 
       const start =
         new Date(startDate);
@@ -102,13 +114,25 @@ if (existingBooking) {
           (1000 * 60 * 60 * 24)
         );
 
-      // Total price
+      /* Minimum 1 Day */
+
+      if (totalDays < 1) {
+
+        return res.status(400)
+          .json({
+            message:
+              "Invalid booking dates",
+          });
+
+      }
+
+      /* Total Price */
 
       const totalPrice =
         totalDays *
         car.pricePerDay;
 
-      // Create booking
+      /* Create Booking */
 
       const booking =
         await Booking.create({
@@ -127,6 +151,9 @@ if (existingBooking) {
           endDate,
 
           totalPrice,
+
+          status:
+            "pending",
 
         });
 
@@ -232,6 +259,7 @@ exports.getOwnerBookings =
 
   };
 
+/* Update Booking Status */
 
 exports.updateBookingStatus =
   async (req, res) => {
@@ -253,7 +281,7 @@ exports.updateBookingStatus =
 
       }
 
-      // Owner security
+      /* Owner Security */
 
       if (
         booking.owner.toString() !==
@@ -296,6 +324,8 @@ exports.updateBookingStatus =
     }
 
   };
+
+/* Get Car Bookings */
 
 exports.getCarBookings =
   async (req, res) => {

@@ -16,6 +16,9 @@ exports.addCar =
           owner:
             req.user.id,
 
+          status:
+            "pending",
+
         });
 
       res.status(201).json({
@@ -23,7 +26,7 @@ exports.addCar =
         success: true,
 
         message:
-          "Car added successfully",
+          "Car added successfully and waiting for admin approval",
 
         car: newCar,
 
@@ -78,7 +81,7 @@ exports.getOwnerCars =
 
   };
 
-/* Get All Cars */
+/* Get All Public Cars */
 
 exports.getAllCars =
   async (req, res) => {
@@ -86,11 +89,16 @@ exports.getAllCars =
     try {
 
       const cars =
-        await Car.find()
-          .populate(
-            "owner",
-            "fullName email"
-          );
+        await Car.find({
+
+          status:
+            "approved"
+
+        })
+        .populate(
+          "owner",
+          "fullName email"
+        );
 
       res.status(200).json({
 
@@ -113,6 +121,8 @@ exports.getAllCars =
 
   };
 
+/* Delete Car */
+
 exports.deleteCar =
   async (req, res) => {
 
@@ -133,7 +143,7 @@ exports.deleteCar =
 
       }
 
-      // Owner check
+      /* Owner Security */
 
       if (
         car.owner.toString() !==
@@ -172,6 +182,8 @@ exports.deleteCar =
 
   };
 
+/* Get Single Car */
+
 exports.getSingleCar =
   async (req, res) => {
 
@@ -191,6 +203,21 @@ exports.getSingleCar =
           .json({
             message:
               "Car not found",
+          });
+
+      }
+
+      /* Only approved cars publicly accessible */
+
+      if (
+        car.status !==
+        "approved"
+      ) {
+
+        return res.status(403)
+          .json({
+            message:
+              "Car not approved yet",
           });
 
       }
@@ -216,6 +243,8 @@ exports.getSingleCar =
 
   };
 
+/* Update Car */
+
 exports.updateCar =
   async (req, res) => {
 
@@ -236,7 +265,7 @@ exports.updateCar =
 
       }
 
-      // Security
+      /* Security */
 
       if (
         car.owner.toString() !==
@@ -250,6 +279,11 @@ exports.updateCar =
           });
 
       }
+
+      /* Reset approval after edit */
+
+      req.body.status =
+        "pending";
 
       const updatedCar =
         await Car.findByIdAndUpdate(
@@ -269,7 +303,7 @@ exports.updateCar =
         success: true,
 
         message:
-          "Car updated successfully",
+          "Car updated and sent for admin approval",
 
         car: updatedCar,
 

@@ -4,12 +4,13 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "client:build": "npm run build --prefix client",
     "client:install": "npm install --prefix client",
     "build": "npm run client:build",
+    
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "install-all": "npm install && npm run client:install"
   },
@@ -24,7 +25,8 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.6.2",
     "morgan": "^1.10.1",
-    "multer": "^2.1.1"
+    "multer": "^2.1.1",
+    "recharts": "^3.8.1"
   },
   "devDependencies": {
     "concurrently": "^9.2.1",

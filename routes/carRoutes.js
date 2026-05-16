@@ -23,17 +23,20 @@ const authMiddleware =
     "../middleware/authMiddleware"
   );
 
-const roleMiddleware =
-  require(
-    "../middleware/roleMiddleware"
-  );
+const {
+  ownerOnly,
+  adminOnly
+} =
+require(
+  "../middleware/roleMiddleware"
+);
 
 /* Owner Add Car */
 
 router.post(
   "/",
   authMiddleware,
-  roleMiddleware("owner"),
+  ownerOnly,
   addCar
 );
 
@@ -42,7 +45,7 @@ router.post(
 router.get(
   "/my-cars",
   authMiddleware,
-  roleMiddleware("owner"),
+  ownerOnly,
   getOwnerCars
 );
 
@@ -63,7 +66,7 @@ router.get(
 router.put(
   "/:id",
   authMiddleware,
-  roleMiddleware("owner"),
+  ownerOnly,
   updateCar
 );
 
@@ -72,7 +75,7 @@ router.put(
 router.delete(
   "/:id",
   authMiddleware,
-  roleMiddleware("owner"),
+  ownerOnly,
   deleteCar
 );
 

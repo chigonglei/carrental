@@ -7,14 +7,14 @@ const router =
 const authMiddleware =
   require("../middleware/authMiddleware");
 
-const roleMiddleware =
-  require("../middleware/roleMiddleware");
+const {
+  ownerOnly,
+  adminOnly
+} = require("../middleware/roleMiddleware");
 
 const {
-
   registerUser,
   loginUser,
-
 } =
 require("../controllers/authController");
 
@@ -31,7 +31,7 @@ router.post(
 router.get(
   "/owner-only",
   authMiddleware,
-  roleMiddleware("owner"),
+  ownerOnly,
   (req, res) => {
 
     res.json({
@@ -40,6 +40,20 @@ router.get(
     });
 
   }
-); 
+);
+
+router.get(
+  "/admin-only",
+  authMiddleware,
+  adminOnly,
+  (req, res) => {
+
+    res.json({
+      message:
+        "Welcome Admin",
+    });
+
+  }
+);
 
 module.exports = router;

@@ -10,7 +10,6 @@ from "./pages/CarDetails";
 import MyBookings
 from "./pages/MyBookings";
 
-
 import Home
 from "./pages/Home";
 
@@ -50,6 +49,15 @@ from "./pages/owner/MyCars";
 import EditCar
 from "./pages/owner/EditCar";
 
+import Users
+from "./pages/admin/Users";
+
+import CarsAdmin
+from "./pages/admin/Cars";
+
+import AdminBookings
+from "./pages/admin/Bookings";
+
 function App() {
 
   return (
@@ -77,6 +85,13 @@ function App() {
           path="/cars"
           element={<Cars />}
         />
+
+        <Route
+          path="/cars/:id"
+          element={<CarDetails />}
+        />
+
+        {/* Protected Profile */}
 
         <Route
           path="/profile"
@@ -107,6 +122,21 @@ function App() {
         />
 
         {/* Add Car */}
+
+        <Route
+  path="/admin/cars"
+  element={
+    <RoleProtectedRoute
+      allowedRoles={[
+        "admin"
+      ]}
+    >
+
+      <CarsAdmin />
+
+    </RoleProtectedRoute>
+  }
+/>
 
         <Route
           path="/owner/add-car"
@@ -140,29 +170,40 @@ function App() {
           }
         />
 
-        {/* Admin */}
+        {/* Edit Car */}
 
         <Route
-          path="/admin/dashboard"
+  path="/admin/users"
+  element={
+    <RoleProtectedRoute
+      allowedRoles={[
+        "admin"
+      ]}
+    >
+
+      <Users />
+
+    </RoleProtectedRoute>
+  }
+/>
+
+        <Route
+          path="/owner/edit-car/:id"
           element={
             <RoleProtectedRoute
               allowedRoles={[
-                "admin"
+                "owner"
               ]}
             >
 
-
-
-              <AdminDashboard />
+              <EditCar />
 
             </RoleProtectedRoute>
           }
         />
 
-        <Route
-  path="/cars/:id"
-  element={<CarDetails />}
-/>
+        {/* Owner Bookings */}
+
         <Route
           path="/owner/bookings"
           element={
@@ -178,31 +219,54 @@ function App() {
           }
         />
 
+        {/* Renter Bookings */}
+
         <Route
-  path="/owner/edit-car/:id"
+          path="/my-bookings"
+          element={
+            <RoleProtectedRoute
+              allowedRoles={[
+                "renter"
+              ]}
+            >
+
+              <MyBookings />
+
+            </RoleProtectedRoute>
+          }
+        />
+
+        {/* Admin Dashboard */}
+
+        <Route
+  path="/admin/bookings"
   element={
     <RoleProtectedRoute
       allowedRoles={[
-        "owner"
+        "admin"
       ]}
     >
-      <EditCar />
+
+      <AdminBookings />
+
     </RoleProtectedRoute>
   }
 />
 
         <Route
-  path="/my-bookings"
-  element={
-    <RoleProtectedRoute
-      allowedRoles={[
-        "renter"
-      ]}
-    >
-      <MyBookings />
-    </RoleProtectedRoute>
-  }
-/>
+          path="/admin/dashboard"
+          element={
+            <RoleProtectedRoute
+              allowedRoles={[
+                "admin"
+              ]}
+            >
+
+              <AdminDashboard />
+
+            </RoleProtectedRoute>
+          }
+        />
 
       </Routes>
 

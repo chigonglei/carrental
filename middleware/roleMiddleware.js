@@ -1,28 +1,47 @@
-module.exports =
-  (...roles) => {
+const adminOnly = (req, res, next) => {
 
-    return (
-      req,
-      res,
-      next
-    ) => {
+  if (req.user.role !== "admin") {
 
-      if (
-        !roles.includes(
-          req.user.role
-        )
-      ) {
+    return res.status(403).json({
+      message: "Admin access only"
+    });
 
-        return res.status(403)
-          .json({
-            message:
-              "Access denied",
-          });
+  }
 
-      }
+  next();
 
-      next();
+};
 
-    };
+const ownerOnly = (req, res, next) => {
 
-  };
+  if (req.user.role !== "owner") {
+
+    return res.status(403).json({
+      message: "Owner access only"
+    });
+
+  }
+
+  next();
+
+};
+
+const renterOnly = (req, res, next) => {
+
+  if (req.user.role !== "renter") {
+
+    return res.status(403).json({
+      message: "Renter access only"
+    });
+
+  }
+
+  next();
+
+};
+
+module.exports = {
+  adminOnly,
+  ownerOnly,
+  renterOnly
+};

@@ -2,139 +2,129 @@
 
   min-height: 100vh;
 
-  display: flex;
+  background: #f3f4f6;
 
-  justify-content: center;
-
-  align-items: center;
-
-  padding: 60px 20px;
+  padding: 40px 20px;
 
 }
 
 .add-car-container {
 
-  width: 100%;
+  max-width: 900px;
 
-  max-width: 700px;
+  margin: auto;
 
   background: white;
 
   padding: 40px;
 
-  border-radius: 28px;
+  border-radius: 16px;
 
   box-shadow:
-    0 10px 40px
-    rgba(0, 0, 0, 0.08);
+    0 4px 20px rgba(0,0,0,0.08);
 
 }
 
-.add-car-container h1 {
+.add-car-title {
 
-  font-size: 46px;
+  font-size: 40px;
 
-  margin-bottom: 30px;
+  font-weight: 700;
 
-  color: #0f172a;
+  margin-bottom: 10px;
 
-  text-align: center;
-
-}
-
-.add-car-container form {
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 18px;
+  color: #111827;
 
 }
 
-.add-car-container input,
-.add-car-container select {
+.add-car-subtitle {
+
+  color: #6b7280;
+
+  margin-bottom: 40px;
+
+  font-size: 18px;
+
+}
+
+.add-car-form {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 20px;
+
+}
+
+.add-car-form input,
+.add-car-form select {
 
   width: 100%;
 
-  padding: 16px;
+  padding: 14px;
 
-  border: 1px solid #dbe2ea;
+  border: 1px solid #d1d5db;
 
-  border-radius: 14px;
+  border-radius: 10px;
 
-  font-size: 15px;
+  font-size: 16px;
 
   outline: none;
 
-  transition: 0.3s;
+  transition: 0.2s;
 
 }
 
-.add-car-container input:focus,
-.add-car-container select:focus {
+.add-car-form input:focus,
+.add-car-form select:focus {
 
   border-color: #2563eb;
 
-  box-shadow:
-    0 0 0 4px
-    rgba(37, 99, 235, 0.1);
-
 }
 
-.add-car-container button {
+.add-car-button {
 
-  margin-top: 10px;
+  grid-column: span 2;
 
-  width: 100%;
-
-  padding: 16px;
-
-  border: none;
-
-  border-radius: 14px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #2563eb,
-      #1d4ed8
-    );
+  background: #2563eb;
 
   color: white;
 
-  font-size: 16px;
+  border: none;
+
+  padding: 16px;
+
+  border-radius: 12px;
+
+  font-size: 18px;
 
   font-weight: 600;
 
   cursor: pointer;
 
-  transition: 0.3s;
+  transition: 0.2s;
 
 }
 
-.add-car-container button:hover {
+.add-car-button:hover {
 
-  transform:
-    translateY(-2px);
-
-  box-shadow:
-    0 10px 20px
-    rgba(37, 99, 235, 0.25);
+  background: #1d4ed8;
 
 }
 
 @media (max-width: 768px) {
 
-  .add-car-container {
+  .add-car-form {
 
-    padding: 30px 20px;
+    grid-template-columns: 1fr;
 
   }
 
-  .add-car-container h1 {
+  .add-car-button {
 
-    font-size: 34px;
+    grid-column: span 1;
 
   }
 
